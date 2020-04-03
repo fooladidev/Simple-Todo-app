@@ -1,1 +1,114 @@
-<p>ali</p>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body style="background-color: #CCCCCC;">
+    <div class="todo">
+
+        
+        <div class="newtodo">
+            <div class="title">new todo</div>
+            <div class="text">
+                <input id="newtitle" type="text" placeholder="title">
+                <textarea name="" id="newcontent" cols="30" rows="10" placeholder="content">
+                    
+                </textarea>
+            </div>
+            <div class="buttons">
+                <button @click="add_todo">add todo</button>
+            </div>
+            
+
+    </div>
+    <div class="radioinputs">
+        <input type="radio" name="radioes" id="all" value="all" v-model="radioes"><label for="all">all</label>
+        <input type="radio" name="radioes" id="completed" value="completed" v-model="radioes"><label for="completed">completed</label>
+        <input type="radio" name="radioes" id="ncompleted" value="ncompleted" v-model="radioes"><label for="ncompleted">not completed</label>
+
+    </div>
+        <ul>
+        <li v-for="(item, index) in todoes" v-if="(radioes=='all') ||(radioes=='completed'&&todoes[index].completed) ||((radioes=='ncompleted')&& !(todoes[index].completed))" >
+
+      <div class="box">
+        <div class="title">{{todoes[index].title}}</div>
+        <div class="text" :class="{completed:todoes[index].completed}">{{todoes[index].text}}</div>
+        <div class="buttons">
+            <button @click="todoes[index].completed= !todoes[index].completed" class="btn1">mark done</button>
+            <button @click="remove_todo(index)" class="btn2">remove todo</button>
+
+        </div>
+        </div>
+        </li>
+
+        </ul>
+      
+      
+    </div>
+  </body>
+
+  <script>
+    new Vue({
+      el: ".todo",
+      data: {
+          todoes:[{title:'new todo',text:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit distinctio, nisi officiis voluptatum facere animi a molestias, asperiores eum aliquam ratione dignissimos. Sed quas officia reiciendis maiores sunt, asperiores temporibus.',completed:true},
+          {title:'new todo',text:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit distinctio, nisi officiis voluptatum facere animi a molestias, asperiores eum aliquam ratione dignissimos. Sed quas officia reiciendis maiores sunt, asperiores temporibus.Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit distinctio, nisi officiis voluptatum facere animi a molestias, asperiores eum aliquam ratione dignissimos. Sed quas officia reiciendis maiores sunt, asperiores temporibus.',completed:false},
+
+
+          ],
+          radioes:'all',
+
+
+
+      },
+      methods: {
+          add_todo:function(){
+            
+              var ntitle =document.getElementById('newtitle').value;
+              var ncontent =document.getElementById('newcontent').value;
+              if(ntitle.length==0){
+                  alert('title can not be empty');
+
+              }
+              else{
+                var newtodo = {title:ntitle,text:ncontent,completed:false};
+                this.todoes.push(newtodo);
+              }
+
+              
+              
+
+          },
+          remove_todo:function(index){
+              this.todoes.splice(index,1);
+
+          },
+          cond:function(){
+
+              return true;
+          }
+
+      }
+    });
+  </script>
+</html>
